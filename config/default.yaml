@@ -1,0 +1,117 @@
+# Kiri Configuration
+
+# Application Settings
+app:
+  name: "Kiri"
+  version: "5.0.0"
+  debug: false
+  single_instance: true
+
+# File Organization
+file_organization:
+  enabled: true
+  monitored_folders:
+    - "~/Downloads"
+    - "~/Desktop"
+    - "~/Documents/Sandbox"
+  base_output_folder: "~/Documents/Organized"
+  categories:
+    Documents:
+      extensions: [".pdf", ".doc", ".docx", ".txt", ".md", ".rtf"]
+      keywords: ["report", "document", "contract", "invoice"]
+    Images:
+      extensions: [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp"]
+      keywords: ["photo", "image", "screenshot"]
+    Videos:
+      extensions: [".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv"]
+      keywords: ["video", "recording", "movie"]
+    Audio:
+      extensions: [".mp3", ".wav", ".flac", ".aac", ".ogg", ".m4a"]
+      keywords: ["music", "audio", "podcast"]
+    Archives:
+      extensions: [".zip", ".tar", ".gz", ".rar", ".7z"]
+      keywords: ["archive", "backup", "compressed"]
+    Code:
+      extensions: [".py", ".js", ".ts", ".java", ".cpp", ".c", ".h", ".go", ".rs"]
+      keywords: ["code", "script", "source"]
+  confidence_threshold: 0.7  # Below this, use AI for classification
+  require_confirmation: true  # Ask before moving files
+
+# Email Intelligence (IMAP)
+email:
+  enabled: false  # Disabled by default for safety
+  read_only: true  # NEVER modify this
+  check_interval_minutes: 30
+  max_age_days: 7
+  folders_to_check:
+    - "INBOX"
+  # Credentials must be stored in OS Keychain, not here!
+  # keyring_service: "kiri_email"
+  # keyring_username: "your_email@example.com"
+
+# Local AI Settings
+ai:
+  enabled: true
+  provider: "ollama"
+  model: "qwen2.5:3b"
+  base_url: "http://localhost:11434"
+  timeout_seconds: 30
+  max_tokens: 512
+
+# Security Settings
+security:
+  secret_scanner_enabled: true
+  scan_file_size_limit_kb: 2  # Scan first 2KB of files
+  patterns:
+    - name: "AWS Access Key"
+      pattern: "AKIA[0-9A-Z]{16}"
+    - name: "GitHub Token"
+      pattern: "gh[pousr]_[A-Za-z0-9_]{36,}"
+    - name: "Google API Key"
+      pattern: "AIza[0-9A-Za-z_-]{35}"
+    - name: "Private Key Header"
+      pattern: "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+    - name: "Generic API Key"
+      pattern: "[aA][pP][iI][_]?[kK][eE][yY]\\s*[:=]\\s*[\\'\\\"][A-Za-z0-9]{20,}[\\'\\\"]"
+    - name: "Password Field"
+      pattern: "[pP][aA][sS][sS][wW][oO][rR][dD]\\s*[:=]\\s*[\\'\\\"][^\\'\\\"]{8,}[\\'\\\"]"
+    - name: "Credit Card Number"
+      pattern: "\\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})\\b"
+    - name: "SSN"
+      pattern: "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+
+# Backup Settings (Git)
+backup:
+  enabled: true
+  repo_path: "~/kiri_backups"
+  auto_commit: true
+  pre_action_branch: true
+  retention_days: 30
+  gpg_sign: false
+
+# Behavior Logging
+logging:
+  behavior_db_path: "~/.kiri/behavior.db"
+  audit_log_path: "~/.kiri/logs/audit.log"
+  retention_days: 90
+  encrypt_behavior_db: true
+  log_level: "INFO"
+
+# Notification Settings
+notifications:
+  enabled: true
+  quiet_hours:
+    enabled: false
+    start: "22:00"
+    end: "08:00"
+  critical_alerts_always: true  # Security alerts bypass quiet hours
+
+# Daily Briefing
+briefing:
+  enabled: true
+  output_path: "~/kiri_briefing.html"
+  schedule: "08:00"  # Generate at 8 AM
+  top_emails: 5
+  include_files_summary: true
+  include_tasks: true
+  include_security_alerts: true

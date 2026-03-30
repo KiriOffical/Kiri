@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "opacity": 1.0,
+  "sound_enabled": true,
+  "window_width": 200,
+  "window_height": 200,
+  "log_level": "INFO",
+  "log_file": null,
+  "start_position": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "animation": {
+    "default_state": "idle",
+    "frame_duration_ms": 100
+  }
+}

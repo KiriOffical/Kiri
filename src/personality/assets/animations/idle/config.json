@@ -1,0 +1,7 @@
+{
+  "name": "idle",
+  "description": "Default idle animation state",
+  "priority": 10,
+  "loop": true,
+  "frames": ["frame_001.png"]
+}
